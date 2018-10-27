@@ -8,6 +8,7 @@ else:
     import atexit
     from select import select
 
+
 class KBHit:
 
     def __init__(self):
@@ -18,7 +19,8 @@ class KBHit:
             self.new_term = termios.tcgetattr(self.fd)
             self.old_term = termios.tcgetattr(self.fd)
 
-            self.new_term[3] = (self.new_term[3] & ~termios.ICANON & ~termios.ECHO)
+            self.new_term[3] = (self.new_term[3] & ~
+                                termios.ICANON & ~termios.ECHO)
             termios.tcsetattr(self.fd, termios.TCSAFLUSH, self.new_term)
             atexit.register(self.set_normal_term)
 
@@ -37,7 +39,7 @@ class KBHit:
 
     def getarrow(self):
         if os.name == 'nt':
-            msvcrt.getch() 
+            msvcrt.getch()
             c = msvcrt.getch()
             vals = [72, 77, 80, 75]
         else:
@@ -49,5 +51,5 @@ class KBHit:
         if os.name == 'nt':
             return msvcrt.kbhit()
         else:
-            dr,dw,de = select([sys.stdin], [], [], 0)
+            dr, dw, de = select([sys.stdin], [], [], 0)
             return dr != []
